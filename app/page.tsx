@@ -29,6 +29,41 @@ const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const MinusIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+
+const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
 const stockTypes = [
   "ADR",
   "CDI",
@@ -60,7 +95,7 @@ const stockTypes = [
   "Unit",
 ];
 
-const stockMics = ["ARCX", "BATS", "IEXG", "OOTC", "XASE", "XNAS", "XNYS"];
+const stockMics = ["ARCX", "BATS", "IEXG", "OOTC", "XASE", "XNYS"];
 
 export default function Home() {
   const [types, setTypes] = useState([""]);
@@ -74,8 +109,16 @@ export default function Home() {
     setTypes([...types, ""]);
   };
 
+  const handleRemoveType = (index: number) => {
+    setTypes(types.filter((_, i) => i !== index));
+  };
+
   const handleAddMic = () => {
     setMics([...mics, ""]);
+  };
+
+  const handleRemoveMic = (index: number) => {
+    setMics(mics.filter((_, i) => i !== index));
   };
 
   const handleTypeChange = (index: number, value: string) => {
@@ -147,6 +190,13 @@ export default function Home() {
                       ))}
                     </SelectContent>
                   </Select>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleRemoveType(index)}
+                  >
+                    <XIcon className="h-4 w-4" />
+                  </Button>
                 </div>
               ))}
               <Button
@@ -179,6 +229,13 @@ export default function Home() {
                       ))}
                     </SelectContent>
                   </Select>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleRemoveMic(index)}
+                  >
+                    <XIcon className="h-4 w-4" />
+                  </Button>
                 </div>
               ))}
               <Button
