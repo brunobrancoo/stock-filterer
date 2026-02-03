@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -28,10 +29,45 @@ const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const stockTypes = [
+  "ADR",
+  "CDI",
+  "Canadian DR",
+  "Closed-End Fund",
+  "Common Stock",
+  "Dutch Cert",
+  "ETP",
+  "Equity WRT",
+  "Foreign Sh.",
+  "GDR",
+  "Ltd Part",
+  "MLP",
+  "Misc.",
+  "NVDR",
+  "NY Reg Shrs",
+  "Open-End Fund",
+  "PRIVATE",
+  "PUBLIC",
+  "Preference",
+  "REIT",
+  "Receipt",
+  "Right",
+  "Royalty Trst",
+  "SDR",
+  "Savings Share",
+  "Stapled Security",
+  "Tracking Stk",
+  "Unit",
+];
+
+const stockMics = ["ARCX", "BATS", "IEXG", "OOTC", "XASE", "XNAS", "XNYS"];
+
 export default function Home() {
   const [types, setTypes] = useState([""]);
   const [mics, setMics] = useState([""]);
-  const [filteredStocks, setFilteredStocks] = useState<any[]>([]);
+  const [filteredStocks, setFilteredStocks] = useState<
+    Record<string, string>[]
+  >([]);
   const [filteredCount, setFilteredCount] = useState<number | null>(null);
 
   const handleAddType = () => {
@@ -96,11 +132,21 @@ export default function Home() {
               <label className="text-sm font-medium">Type</label>
               {types.map((type, index) => (
                 <div key={`type-${index}`} className="flex items-center gap-2">
-                  <Input
+                  <Select
                     value={type}
-                    onChange={(e) => handleTypeChange(index, e.target.value)}
-                    placeholder="e.g., Common Stock"
-                  />
+                    onValueChange={(value) => handleTypeChange(index, value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {stockTypes.map((stockType) => (
+                        <SelectItem key={stockType} value={stockType}>
+                          {stockType}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               ))}
               <Button
@@ -118,11 +164,21 @@ export default function Home() {
               <label className="text-sm font-medium">MIC</label>
               {mics.map((mic, index) => (
                 <div key={`mic-${index}`} className="flex items-center gap-2">
-                  <Input
+                  <Select
                     value={mic}
-                    onChange={(e) => handleMicChange(index, e.target.value)}
-                    placeholder="e.g., XNYS"
-                  />
+                    onValueChange={(value) => handleMicChange(index, value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a MIC" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {stockMics.map((stockMic) => (
+                        <SelectItem key={stockMic} value={stockMic}>
+                          {stockMic}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               ))}
               <Button
@@ -160,3 +216,4 @@ export default function Home() {
     </div>
   );
 }
+
